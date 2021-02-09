@@ -1,4 +1,3 @@
-using CursoEFCore.Data.Configurations;
 using CursoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
 

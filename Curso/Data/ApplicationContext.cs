@@ -1,3 +1,4 @@
+using System.Linq;
 using CursoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,19 @@ namespace CursoEFCore.Data
 
             //busca todas class que implementa IEntityTypeConfiguration
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
+            MapearPropriedadesEsquicidas(modelBuilder);
+        }
+
+        private void MapearPropriedadesEsquicidas(ModelBuilder modelBuilder){
+            foreach(var entity in modelBuilder.Model.GetEntityTypes()){
+                var properties = entity.GetProperties().Where(predicate=>predicate.ClrType == typeof(string));
+                foreach(var prop in properties){
+                    if(string.IsNullOrEmpty(prop.GetColumnType()) && !prop.GetMaxLength().HasValue){
+                        //prop.SetMaxLength(100);
+                        prop.SetColumnType("VARCHAR(100)");
+                    }
+                }
+            }
         }
     }
 }

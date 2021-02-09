@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using CursoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,10 @@ namespace CursoEFCore.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CursoEFCore;Trusted_Connection=True;MultipleActiveResultSets=true;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CursoEFCore;Trusted_Connection=True;MultipleActiveResultSets=true;"
+            ,p=>p.EnableRetryOnFailure(
+                maxRetryCount: 2,maxRetryDelay: TimeSpan.FromSeconds(5),errorNumbersToAdd: null)
+            );//p=>p.EnableRetryOnFailure() tenta se conecar ate 2 vezes caso haja erro
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

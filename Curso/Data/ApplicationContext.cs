@@ -1,3 +1,4 @@
+using CursoEFCore.Data.Configurations;
 using CursoEFCore.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,9 @@ namespace CursoEFCore.Data
     public class ApplicationContext : DbContext
     {
         public DbSet<Pedido> Pedidos { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<PedidoItem> PedidoItems { get; set; }
+        public DbSet<Produto> Produtos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -14,7 +18,11 @@ namespace CursoEFCore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Pedido>();
+            //importar um a um 
+            // modelBuilder.ApplyConfiguration(new ClienteConfiguration());
+
+            //busca todas class que implementa IEntityTypeConfiguration
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
         }
     }
 }

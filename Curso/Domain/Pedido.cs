@@ -1,4 +1,5 @@
 
+using CursoEFCore.ValueObjects;
 using System;
 using System.Collections.Generic;
 

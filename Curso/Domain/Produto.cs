@@ -1,3 +1,5 @@
+using CursoEFCore.ValueObjects;
+
 namespace CursoEFCore.Domain
 {
     public class Produto
